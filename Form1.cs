@@ -22,7 +22,7 @@ namespace UnitySymLinkMaker
         string linkFolderPath;
         string newSymlFilePath;
         string finalSymlFilePath;
-        string datestamp = string.Format("{0:yyyy-MM-dd_hh-mm-ss}", DateTime.Now);
+        string datestamp =string.Format("{0:yyyy-MM-dd_hh-mm-ss}", DateTime.Now);
         bool isFile = false;
         bool isFolder = false;
         bool isStandard = false;
@@ -74,6 +74,7 @@ namespace UnitySymLinkMaker
 
             if(projOpenFolderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(projOpenFolderDialog.SelectedPath))
             {
+                datestamp = string.Format("{0:yyyy-MM-dd_hh-mm-ss}", DateTime.Now);
                 //get file path and assign to input
                 string projFolderPath = projOpenFolderDialog.SelectedPath;
                 sourceFolderPath = proj_loca_input_txt.Text = projFolderPath;
@@ -103,6 +104,7 @@ namespace UnitySymLinkMaker
 
             if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fileDialog.FileName))
             {
+                datestamp = string.Format("{0:yyyy-MM-dd_hh-mm-ss}", DateTime.Now);
                 //get file path and assign to input
                 string projFilepath = fileDialog.FileName;
                 //get directory path
@@ -145,49 +147,63 @@ namespace UnitySymLinkMaker
         private void Create_syml_button_Click(object sender, EventArgs e)
         {
             isFile = false;
-            //create symlink folder in same folder as project
-            Process_log.Text += "Creating symlink folder(s)... " + Environment.NewLine;
-            string symlinkFolder = targetFolderPath;
-            System.IO.Directory.CreateDirectory(symlinkFolder);
-
-            Process_log.Text += "Symlink Folder created at: " + targetFolderPath + Environment.NewLine;
                         
             //get sub folders from project folder specified
             string[] sourceFoldersPath = Directory.GetDirectories(sourceFolderPath);
             
-            foreach (string folderPath in sourceFoldersPath)
+            //single level directory
+            if(sourceFoldersPath.Length == 0)
+            { 
+                pathSplit = sourceFolderPath.Split('\\');
+                symlName = pathSplit[pathSplit.Length - 1];
+                string parentPath = System.IO.Directory.GetParent(targetFolderPath).FullName;
+                CreateSymbolicLink(parentPath, targetFolderPath, sourceFolderPath, isFile);
+            }
+            else if(sourceFoldersPath.Length > 0)//multi level directory
             {
-                if (isStandard)
+                //create symlink folder in same folder as project
+                Process_log.Text += "Creating symlink folder... " + Environment.NewLine;
+                string symlinkFolder = targetFolderPath;
+                System.IO.Directory.CreateDirectory(symlinkFolder);
+
+                Process_log.Text += "Symlink Folder created at: " + targetFolderPath + Environment.NewLine;
+
+                foreach (string folderPath in sourceFoldersPath)
                 {
-                    //only Assets, ProjectSettings and Packages are valid
-                    if (folderPath.Contains("\\Assets") || folderPath.Contains("\\Packages") || folderPath.Contains("\\ProjectSettings"))
+                    if (isStandard)
                     {
-                        Process_log.Text += "Standard folder found: " + folderPath + Environment.NewLine;
+                        //only Assets, ProjectSettings and Packages are valid
+                        if (folderPath.Contains("\\Assets") || folderPath.Contains("\\Packages") || folderPath.Contains("\\ProjectSettings"))
+                        {
+                            Process_log.Text += "Standard folder found: " + folderPath + Environment.NewLine;
+                            pathSplit = folderPath.Split('\\');
+                            symlName = pathSplit[pathSplit.Length - 1];
+                            /*linkFolderPath = targetFolderPath + "\\" + symlName;
+                            //copy folder to target symlink folder
+                            var dirSource = new DirectoryInfo(folderPath);
+                            var dirTarget = new DirectoryInfo(linkFolderPath);
+                            Process_log.Text += "Link folder created: " + linkFolderPath + Environment.NewLine;
+                            //CopyAll(dirSource, dirTarget);*/
+                            CreateSymbolicLink(targetFolderPath, symlName, folderPath, isFile);
+
+                        }
+                    }
+                    else // if not standard create the symlink for the selected folder
+                    {
                         pathSplit = folderPath.Split('\\');
+
                         symlName = pathSplit[pathSplit.Length - 1];
+                        //Create all subdirectories as required
+                        Process_log.Text += "Source folder found: " + folderPath + Environment.NewLine;
                         linkFolderPath = targetFolderPath + "\\" + symlName;
-                        /*//copy folder to target symlink folder
-                        var dirSource = new DirectoryInfo(folderPath);
-                        var dirTarget = new DirectoryInfo(linkFolderPath);
-                        Process_log.Text += "Link folder created: " + linkFolderPath + Environment.NewLine;
-                        //CopyAll(dirSource, dirTarget);*/
                         CreateSymbolicLink(targetFolderPath, symlName, folderPath, isFile);
+
 
                     }
                 }
-                else // if not standard create the symlink for the selected folder
-                {
-                    pathSplit = folderPath.Split('\\');
 
-                    symlName = pathSplit[pathSplit.Length - 1];
-                    //Create all subdirectories as required
-                    Process_log.Text += "Source folder found: " + folderPath + Environment.NewLine;
-                    linkFolderPath = targetFolderPath + "\\" + symlName;
-                    CreateSymbolicLink(targetFolderPath, symlName, folderPath, isFile);
-                   
-                        
-                }
             }
+            
         }
 
         //create symlink for selected file path
