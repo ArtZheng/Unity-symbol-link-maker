@@ -1,0 +1,10 @@
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\bin\Debug\UnitySymLinkMaker.exe.config
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\bin\Debug\UnitySymLinkMaker.exe
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\bin\Debug\UnitySymLinkMaker.pdb
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\obj\Debug\UnitySymLinkMaker.csprojAssemblyReference.cache
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\obj\Debug\UnitySymLinkMaker.Form1.resources
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\obj\Debug\UnitySymLinkMaker.Properties.Resources.resources
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\obj\Debug\UnitySymLinkMaker.csproj.GenerateResource.cache
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\obj\Debug\UnitySymLinkMaker.csproj.CoreCompileInputs.cache
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\obj\Debug\UnitySymLinkMaker.exe
+C:\Users\Arthur\source\repos\UnitySymLinkMaker\UnitySymLinkMaker\obj\Debug\UnitySymLinkMaker.pdb
