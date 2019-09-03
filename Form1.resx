@@ -119,9 +119,9 @@
   </resheader>
   <data name="label1.Text" xml:space="preserve">
     <value>How to: 
-1. Enter your project folder location and your target project location.
+1. Enter or browse for your source and future symlink folder or file location.
 2. Press the 'Create' button to initialize the linking.
-3. Name of symlink folder  will be Project folder name"_SymLink_timestamp (in yyyy-MM-dd_hh-mm-ssformat).
+3. Name of symlink will be: source name + "_SymLink_timestamp (in yyyy-MM-dd_hh-mm-ss format).
 </value>
   </data>
 </root>
